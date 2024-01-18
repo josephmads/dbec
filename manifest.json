@@ -1,18 +1,18 @@
 {
     "manifest_version": 2,
-    "name": "Borderify",
+    "name": "dbec",
     "version": "1.0",
   
-    "description": "Adds a red border to all webpages matching google.com/mail/.",
+    "description": "Detect Business Email Compromise. Returns data on age of email domain registration.",
   
     "icons": {
-      "48": "icons/shield-icon.png"
+      "48": "icons/mail-lock.png"
     },
   
     "content_scripts": [
       {
         "matches": ["*://*.google.com/mail/*"],
-        "js": ["borderify.js"]
+        "js": ["dbec.js"]
       }
     ]
   }

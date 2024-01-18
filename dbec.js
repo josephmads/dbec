@@ -12,4 +12,23 @@ let domainArray = senderEmail.match(domainRegex);
 let senderDomain = domainArray[0];
 console.log(senderDomain);
 
-// pass domain variable to https://www.rdap.net/domain/example.com
+
+// https://www.freecodecamp.org/news/make-api-calls-in-javascript/#asynchronous-javascript
+
+// Define the API URL
+const apiURL = `https://rdap.verisign.com/com/v1/domain/${senderDomain}`;
+
+// Make a GET request
+fetch(apiURL)
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
