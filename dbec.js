@@ -12,27 +12,32 @@ const domainArray = senderEmail.match(domainRegex);
 const senderDomain = domainArray[0];
 console.log(senderDomain);
 
-
-// https://www.freecodecamp.org/news/make-api-calls-in-javascript/#asynchronous-javascript
-
 // Define the API URL
+
 const url = `https://rdap.verisign.com/com/v1/domain/${senderDomain}`;
 
 // Make a GET request
-let rdap;
 
-fetch(url)
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json();
-  })
-  .then((data) => {
-    rdap = data;
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+async function getRdapRecords() {
+  return fetch(url).then(response => response.json());
+}
+ 
+const rdapData  = await getRdapRecords();
 
-rdap.events[0]  
+const registration = rdapData.events[0]["eventDate"]
+
+
+// fetch(url)
+//   .then((response) => {
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
+//     return response.json();
+//   })
+//   .then((data) => {
+//     rdap = data;
+//   })
+//   .catch((error) => {
+//     console.error("Error:", error);
+//   });
+    
