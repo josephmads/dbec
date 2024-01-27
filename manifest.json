@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "dbec",
     "version": "1.0",
   
@@ -14,6 +14,10 @@
         "matches": ["*://*.google.com/mail/*"],
         "js": ["dbec.js"]
       }
+    ],
+
+    "host_permissions": [
+      "*://*.google.com/mail/*"
     ]
   }
   
