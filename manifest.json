@@ -4,6 +4,7 @@
     "version": "1.0",
   
     "description": "Detect Business Email Compromise. Returns data on age of email domain registration.",
+    "homepage_url": "https://github.com/josephmads/dbec",
   
     "icons": {
       "48": "icons/mail-lock.png"
@@ -12,12 +13,20 @@
     "content_scripts": [
       {
         "matches": ["*://*.google.com/mail/*"],
-        "js": ["dbec.js"]
+        "js": ["content_scripts/dbec.js"]
       }
     ],
 
     "host_permissions": [
       "*://*.google.com/mail/*"
-    ]
+    ],
+
+    "permissions": ["activeTab"],
+
+    "action": {
+      "default_icon": "icons/mail-lock.png",
+      "default_title": "dbec",
+      "default_popup": "popup/dbec_menu.html"
+    }
   }
   
