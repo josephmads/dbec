@@ -12,13 +12,13 @@
   
     "content_scripts": [
       {
-        "matches": ["*://*.google.com/mail/*"],
+        "matches": ["*://*.google.com/mail/u/0/*"],
         "js": ["content_scripts/dbec.js"]
       }
     ],
 
     "host_permissions": [
-      "*://*.google.com/mail/*"
+      "*://*.google.com/mail/u/0/*"
     ],
 
     "permissions": ["activeTab"],

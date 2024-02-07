@@ -1,8 +1,9 @@
 // dbec
 
 const userAlertStyle = `
-  background: #ff0000;
+  background: #ff8080;
   padding: .75rem;
+  max-width: 30rem;
   border-radius: 5px;
 `;
 
@@ -22,23 +23,7 @@ function main() {
   // Make Get request to RDAP API
   async function getRdapRecords(domain) {
     try {
-      const tld = domain.substr(domain.length - 3);
-      let url = "";
-      
-      // keep trying rdap.net/domain/
-
-      // replace with a for loop? 
-      if (tld === "com") {
-        url = `https://rdap.verisign.com/com/v1/domain/${domain}`;
-      } else if (tld === "net") {
-        url = `https://rdap.verisign.com/net/v1/domain/${domain}`;
-      } else {
-        url = `https://rdap.verisign.com/$TLD/v1/domain/${domain}`;
-        url = `https://rdap.donuts.co/rdap/domain/${domain}`;
-        url = `https://rdap.identitydigital.services/rdap/domain/${domain}`;
-      }
-
-      const response = await fetch(url);
+      const response = await fetch(`https://www.rdap.net/domain/${domain}`);
       const data = await response.json();
       const registration = data.events[0]["eventDate"];
       // console.log(`${senderDomain} was registered on ${registration}`)
@@ -57,8 +42,16 @@ function main() {
   getRdapRecords(senderDomain);
 }
 
+// use Regex to match URL fragment identifier
+const urlRegex = /#\w*\W\w*/g;
+const urlFrag = window.location.hash;
+const urlFragArray = urlFrag.match(urlRegex);
+const urlFragMatch = urlFragArray[0];
+
 // Delay functions to allow necessary elements to load -- needs to change to a eventlistener
 setTimeout(() => {
   console.log("timeout");
-  main();
+  if (window.location.hash === urlFragMatch) {
+    main();
+  }
 }, 5000);
