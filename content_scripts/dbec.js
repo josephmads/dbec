@@ -11,10 +11,22 @@ function main() {
   const sender = document.body.querySelector("span[email]");
   const senderEmail = sender.attributes.email.value;
 
-  // use regex to isolate domain after @ and assign to variable
-  const domainRegex = /(?<=@).*/g;
+
+  // use regex to isolate domain after @ or from subdomain
+  const domainRegex = /(?<=@).*/gi;
+  const subDomainRegex = /(?<=\.).*/gi;
+
   const domainArray = senderEmail.match(domainRegex);
-  const senderDomain = domainArray[0];
+  let senderDomain = domainArray[0];
+
+  const checkForSubDomain = (senderDomain.match(/\./g)||[]).length
+
+  if (checkForSubDomain > 1) {
+    senderDomain = senderDomain.match(subDomainRegex);
+  } else {
+    pass
+  }
+
   console.log("main1");
 
   // Define the API URL
