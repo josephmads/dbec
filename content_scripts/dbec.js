@@ -8,31 +8,39 @@ const userAlertStyle = `
 `;
 
 function main() {
-  const sender = document.body.querySelector("span[email]");
-  const senderEmail = sender.attributes.email.value;
+  const getSender = document.body.querySelector("span[email]");
+  const senderEmail = getSender.attributes.email.value;
 
+  /**
+   * Isolates the domain from the email address
+   * @param {string} email
+   * @returns {string} isolated domain
+   */
+  function isolateDomain(email) {
+    const domainRegex = /(?<=@).*/gi;
+    const domainArray = email.match(domainRegex);
+    const domain = domainArray[0];
 
-  // use regex to isolate domain after @ or from subdomain
-  const domainRegex = /(?<=@).*/gi;
-  const subDomainRegex = /(?<=\.).*/gi;
+    const checkForSubDomain = (domain.match(/\./g)||[]).length;
 
-  const domainArray = senderEmail.match(domainRegex);
-  let senderDomain = domainArray[0];
-
-  const checkForSubDomain = (senderDomain.match(/\./g)||[]).length
-
-  if (checkForSubDomain > 1) {
-    senderDomain = senderDomain.match(subDomainRegex);
-  } else {
-    pass
+    if (checkForSubDomain > 1) {
+      senderArray = domain.split('.');
+      let tld = senderArray.pop()
+      let sld = senderArray.pop()
+      const cleanedDomain = `${sld}.${tld}`
+      return cleanedDomain
+    } else {
+      return domain
+    }
   }
 
-  console.log("main1");
+  const senderDomain = isolateDomain(senderEmail)
 
-  // Define the API URL
-  // const rdapUrl = `https://rdap.verisign.com/com/v1/domain/${senderDomain}`;
-
-  // Make Get request to RDAP API
+  /**
+   * Retrieves domain records from RDAP 
+   * and displays registration date to user
+   * @param {string} domain 
+   */
   async function getRdapRecords(domain) {
     try {
       const response = await fetch(`https://www.rdap.net/domain/${domain}`);
